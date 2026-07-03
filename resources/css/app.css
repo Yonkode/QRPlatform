@@ -13,6 +13,12 @@
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
 
+    --font-display:
+        'Space Grotesk', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+
+    --font-mono:
+        'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
     --radius-sm: calc(var(--radius) - 4px);
@@ -45,6 +51,11 @@
     --color-input: var(--input);
     --color-ring: var(--ring);
 
+    --color-signal: var(--signal);
+    --color-scan: var(--scan);
+    --color-pulse: var(--pulse);
+    --color-warn: var(--warn);
+
     --color-chart-1: var(--chart-1);
     --color-chart-2: var(--chart-2);
     --color-chart-3: var(--chart-3);
@@ -62,74 +73,91 @@
 }
 
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --destructive-foreground: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.87 0 0);
-    --chart-1: oklch(0.646 0.222 41.116);
-    --chart-2: oklch(0.6 0.118 184.704);
-    --chart-3: oklch(0.398 0.07 227.392);
-    --chart-4: oklch(0.828 0.189 84.429);
-    --chart-5: oklch(0.769 0.188 70.08);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.87 0 0);
+    --background: #ffffff;
+    --foreground: #17142b;
+    --card: #ffffff;
+    --card-foreground: #17142b;
+    --popover: #ffffff;
+    --popover-foreground: #17142b;
+    --primary: #6e56f8;
+    --primary-foreground: #ffffff;
+    --secondary: #f1eefe;
+    --secondary-foreground: #4c3fbf;
+    --muted: #f5f4fa;
+    --muted-foreground: #6b6580;
+    --accent: #eaf9f6;
+    --accent-foreground: #0f8c77;
+    --destructive: #f04438;
+    --destructive-foreground: #ffffff;
+    --border: #e7e4f2;
+    --input: #e7e4f2;
+    --ring: #6e56f8;
+
+    --signal: #6e56f8;
+    --scan: #16e0bd;
+    --pulse: #ff3d8a;
+    --warn: #ffb020;
+
+    --chart-1: #6e56f8;
+    --chart-2: #16e0bd;
+    --chart-3: #ff3d8a;
+    --chart-4: #ffb020;
+    --chart-5: #4c3fbf;
+    --radius: 0.75rem;
+
+    --sidebar: #17142b;
+    --sidebar-foreground: #f5f4fa;
+    --sidebar-primary: #6e56f8;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #241f3d;
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-border: #2d2750;
+    --sidebar-ring: #6e56f8;
+
+    --gradient-signal: linear-gradient(135deg, #6e56f8 0%, #ff3d8a 100%);
+    --gradient-scan: linear-gradient(135deg, #16e0bd 0%, #6e56f8 100%);
 }
 
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.145 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.145 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.985 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.396 0.141 25.723);
-    --destructive-foreground: oklch(0.637 0.237 25.331);
-    --border: oklch(0.269 0 0);
-    --input: oklch(0.269 0 0);
-    --ring: oklch(0.439 0 0);
-    --chart-1: oklch(0.488 0.243 264.376);
-    --chart-2: oklch(0.696 0.17 162.48);
-    --chart-3: oklch(0.769 0.188 70.08);
-    --chart-4: oklch(0.627 0.265 303.9);
-    --chart-5: oklch(0.645 0.246 16.439);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.985 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(0.269 0 0);
-    --sidebar-ring: oklch(0.439 0 0);
+    --background: #0e0c1b;
+    --foreground: #f5f4fa;
+    --card: #17142b;
+    --card-foreground: #f5f4fa;
+    --popover: #17142b;
+    --popover-foreground: #f5f4fa;
+    --primary: #8b76ff;
+    --primary-foreground: #0e0c1b;
+    --secondary: #241f3d;
+    --secondary-foreground: #f5f4fa;
+    --muted: #241f3d;
+    --muted-foreground: #a8a2c0;
+    --accent: #1b3d38;
+    --accent-foreground: #4debcb;
+    --destructive: #ff6b5d;
+    --destructive-foreground: #0e0c1b;
+    --border: #2d2750;
+    --input: #2d2750;
+    --ring: #8b76ff;
+
+    --signal: #8b76ff;
+    --scan: #4debcb;
+    --pulse: #ff6ba3;
+    --warn: #ffc862;
+
+    --chart-1: #8b76ff;
+    --chart-2: #4debcb;
+    --chart-3: #ff6ba3;
+    --chart-4: #ffc862;
+    --chart-5: #b8a9ff;
+
+    --sidebar: #0a0815;
+    --sidebar-foreground: #f5f4fa;
+    --sidebar-primary: #8b76ff;
+    --sidebar-primary-foreground: #0e0c1b;
+    --sidebar-accent: #17142b;
+    --sidebar-accent-foreground: #f5f4fa;
+    --sidebar-border: #241f3d;
+    --sidebar-ring: #8b76ff;
 }
 
 @layer base {
@@ -140,4 +168,97 @@
     body {
         @apply bg-background text-foreground;
     }
+
+    h1, h2, h3, h4 {
+        font-family: var(--font-display);
+    }
+}
+
+@layer utilities {
+    .text-gradient-signal {
+        background: var(--gradient-signal);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .bg-gradient-signal {
+        background: var(--gradient-signal);
+    }
+
+    .bg-gradient-scan {
+        background: var(--gradient-scan);
+    }
+
+    /*
+     * Coins de repérage — motif signature emprunté aux marqueurs de
+     * position d'un QR code (les 3 carrés dans les coins qui permettent
+     * à un scanner de se caler sur le code).
+     */
+    .finder-frame {
+        position: relative;
+    }
+
+    .finder-frame::before,
+    .finder-frame::after {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border: 2px solid color-mix(in srgb, var(--signal) 45%, transparent);
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        pointer-events: none;
+    }
+
+    .finder-frame::before {
+        top: -1px;
+        left: -1px;
+        border-right: none;
+        border-bottom: none;
+        border-top-left-radius: 6px;
+    }
+
+    .finder-frame::after {
+        bottom: -1px;
+        right: -1px;
+        border-left: none;
+        border-top: none;
+        border-bottom-right-radius: 6px;
+    }
+
+    .finder-frame:hover::before,
+    .finder-frame:hover::after,
+    .finder-frame:focus-within::before,
+    .finder-frame:focus-within::after {
+        border-color: var(--signal);
+        box-shadow: 0 0 12px -2px var(--signal);
+    }
+
+    @keyframes scan-sweep {
+        0% { top: 0%; opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { top: 100%; opacity: 0; }
+    }
+
+    .scan-line::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--scan);
+        box-shadow: 0 0 8px 1px var(--scan);
+        animation: scan-sweep 1.4s ease-in-out 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .scan-line::after {
+            animation: none;
+            display: none;
+        }
+    }
+
+    
+
 }

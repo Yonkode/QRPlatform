@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Gate;
 
 class QrCodeController extends Controller
 {
@@ -45,4 +46,56 @@ class QrCodeController extends Controller
 
         return redirect()->route('qr-codes.index');
     }
+
+    public function destroy(Request $request, QrCode $qrCode): RedirectResponse
+    {
+        Gate::authorize('delete', $qrCode);
+
+        $qrCode->delete();
+
+        return redirect()->route('qr-codes.index');
+    }
+
+    public function bulkDestroy(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'ids' => ['required', 'array', 'min:1'],
+            'ids.*' => ['integer'],
+        ]);
+
+        $request->user()->qrCodes()->whereIn('id', $validated['ids'])->delete();
+
+        return redirect()->route('qr-codes.index');
+    }
+
+    public function updateQuota(Request $request, QrCode $qrCode): RedirectResponse
+    {
+        Gate::authorize('update', $qrCode);
+
+        $validated = $request->validate([
+            'scan_limit' => ['nullable', 'integer', 'min:0'],
+            'reason' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $oldLimit = $qrCode->scan_limit;
+        $newLimit = $validated['scan_limit'] ?? null;
+
+        $qrCode->quotaLogs()->create([
+            'changed_by' => $request->user()->id,
+            'old_limit' => $oldLimit,
+            'new_limit' => $newLimit,
+            'reason' => $validated['reason'] ?? null,
+        ]);
+
+        $qrCode->scan_limit = $newLimit;
+
+        if ($qrCode->status === 'limit_reached' && ($newLimit === null || $newLimit > $qrCode->scan_count)) {
+            $qrCode->status = 'active';
+        }
+
+        $qrCode->save();
+
+        return redirect()->route('qr-codes.index');
+    }
+
 }

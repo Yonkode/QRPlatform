@@ -8,13 +8,22 @@ use Illuminate\Support\Facades\Route;
 Route::inertia('/', 'welcome')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'dashboard')->name('dashboard');
+    Route::get('dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+
+    Route::delete('qr-codes/bulk-destroy', [QrCodeController::class, 'bulkDestroy'])
+        ->name('qr-codes.bulk-destroy');
 
     Route::resource('qr-codes', QrCodeController::class)
-        ->only(['index', 'create', 'store']);
+        ->only(['index', 'create', 'store', 'destroy']);
 
     Route::get('qr-codes/{qrCode}/image', [QrCodeImageController::class, 'show'])
         ->name('qr-codes.image');
+    
+    Route::get('qr-codes/{qrCode}/scans', [\App\Http\Controllers\QrScanHistoryController::class, 'index'])
+        ->name('qr-codes.scans');
+
+    Route::patch('qr-codes/{qrCode}/quota', [QrCodeController::class, 'updateQuota'])
+        ->name('qr-codes.update-quota');
 });
 
 // --- Espace public de résolution des QR Codes (sans authentification) ---
