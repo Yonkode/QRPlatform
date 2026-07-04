@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils';
 import type { ReactNode } from 'react';
+import { cn } from '@/lib/utils';
 
 interface FinderFrameProps {
     children: ReactNode;
@@ -14,7 +14,11 @@ interface FinderFrameProps {
  * qui s'allument en dégradé au survol — comme un scanner qui se cale
  * sur le code.
  */
-export function FinderFrame({ children, scanLine = false, className }: FinderFrameProps) {
+export function FinderFrame({
+    children,
+    scanLine = false,
+    className,
+}: FinderFrameProps) {
     return (
         <div
             className={cn(

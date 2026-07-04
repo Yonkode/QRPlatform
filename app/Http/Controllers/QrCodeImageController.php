@@ -17,7 +17,7 @@ class QrCodeImageController extends Controller
         Gate::authorize('view', $qrCode);
 
         $builder = new Builder(
-            writer: new PngWriter(),
+            writer: new PngWriter,
             data: $qrCode->publicUrl(),
             encoding: new Encoding('UTF-8'),
             errorCorrectionLevel: ErrorCorrectionLevel::High,

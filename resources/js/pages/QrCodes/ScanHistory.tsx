@@ -1,9 +1,12 @@
 import { Head, Link, router } from '@inertiajs/react';
-import { FormEventHandler, useState } from 'react';
+import { ArrowLeft, Smartphone, X } from 'lucide-react';
+import type { FormEventHandler} from 'react';
+import { useState } from 'react';
+import { FinderFrame } from '@/components/finder-frame';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
 import {
     Select,
     SelectContent,
@@ -11,8 +14,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { FinderFrame } from '@/components/finder-frame';
-import { ArrowLeft, Smartphone, X } from 'lucide-react';
 import { dashboard } from '@/routes';
 
 interface ScanRow {
@@ -53,13 +54,20 @@ interface ScanHistoryProps {
     };
 }
 
-export default function ScanHistory({ qrCode, scans, availableCountries, filters }: ScanHistoryProps) {
+export default function ScanHistory({
+    qrCode,
+    scans,
+    availableCountries,
+    filters,
+}: ScanHistoryProps) {
     const [from, setFrom] = useState(filters.from ?? '');
     const [to, setTo] = useState(filters.to ?? '');
     const [country, setCountry] = useState(filters.country ?? '');
     const [ip, setIp] = useState(filters.ip ?? '');
 
-    const hasActiveFilters = Boolean(filters.from || filters.to || filters.country || filters.ip);
+    const hasActiveFilters = Boolean(
+        filters.from || filters.to || filters.country || filters.ip,
+    );
 
     const applyFilters: FormEventHandler = (e) => {
         e.preventDefault();
@@ -75,7 +83,11 @@ export default function ScanHistory({ qrCode, scans, availableCountries, filters
         setTo('');
         setCountry('');
         setIp('');
-        router.get(`/qr-codes/${qrCode.id}/scans`, {}, { preserveState: true, replace: true });
+        router.get(
+            `/qr-codes/${qrCode.id}/scans`,
+            {},
+            { preserveState: true, replace: true },
+        );
     };
 
     return (
@@ -93,34 +105,57 @@ export default function ScanHistory({ qrCode, scans, availableCountries, filters
                     </Link>
                     <div className="mt-2 flex items-center justify-between">
                         <div>
-                            <h1 className="font-display text-2xl font-semibold">{qrCode.label}</h1>
+                            <h1 className="font-display text-2xl font-semibold">
+                                {qrCode.label}
+                            </h1>
                             <p className="text-sm text-muted-foreground">
-                                {qrCode.scan_count} / {qrCode.scan_limit ?? '∞'} scans — historique complet
+                                {qrCode.scan_count} / {qrCode.scan_limit ?? '∞'}{' '}
+                                scans — historique complet
                             </p>
                         </div>
                     </div>
                 </div>
 
                 <FinderFrame className="p-5">
-                    <form onSubmit={applyFilters} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+                    <form
+                        onSubmit={applyFilters}
+                        className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5"
+                    >
                         <div className="space-y-1.5">
                             <Label htmlFor="from">Du</Label>
-                            <Input id="from" type="date" value={from} onChange={(e) => setFrom(e.target.value)} />
+                            <Input
+                                id="from"
+                                type="date"
+                                value={from}
+                                onChange={(e) => setFrom(e.target.value)}
+                            />
                         </div>
 
                         <div className="space-y-1.5">
                             <Label htmlFor="to">Au</Label>
-                            <Input id="to" type="date" value={to} onChange={(e) => setTo(e.target.value)} />
+                            <Input
+                                id="to"
+                                type="date"
+                                value={to}
+                                onChange={(e) => setTo(e.target.value)}
+                            />
                         </div>
 
                         <div className="space-y-1.5">
                             <Label>Pays</Label>
-                            <Select value={country || 'all'} onValueChange={(v) => setCountry(v === 'all' ? '' : v)}>
+                            <Select
+                                value={country || 'all'}
+                                onValueChange={(v) =>
+                                    setCountry(v === 'all' ? '' : v)
+                                }
+                            >
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Tous les pays" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">Tous les pays</SelectItem>
+                                    <SelectItem value="all">
+                                        Tous les pays
+                                    </SelectItem>
                                     {availableCountries.map((c) => (
                                         <SelectItem key={c} value={c}>
                                             {c}
@@ -147,7 +182,12 @@ export default function ScanHistory({ qrCode, scans, availableCountries, filters
                                     Filtrer
                                 </Button>
                                 {hasActiveFilters && (
-                                    <Button type="button" variant="ghost" size="icon" onClick={clearFilters}>
+                                    <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="icon"
+                                        onClick={clearFilters}
+                                    >
                                         <X className="size-4" />
                                     </Button>
                                 )}
@@ -171,25 +211,42 @@ export default function ScanHistory({ qrCode, scans, availableCountries, filters
                             <table className="w-full text-left text-sm">
                                 <thead className="border-b border-border text-xs text-muted-foreground">
                                     <tr>
-                                        <th className="px-4 py-3 font-medium">Date</th>
-                                        <th className="px-4 py-3 font-medium">Localisation</th>
-                                        <th className="px-4 py-3 font-medium">Adresse IP</th>
-                                        <th className="px-4 py-3 font-medium">Appareil</th>
+                                        <th className="px-4 py-3 font-medium">
+                                            Date
+                                        </th>
+                                        <th className="px-4 py-3 font-medium">
+                                            Localisation
+                                        </th>
+                                        <th className="px-4 py-3 font-medium">
+                                            Adresse IP
+                                        </th>
+                                        <th className="px-4 py-3 font-medium">
+                                            Appareil
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-border">
                                     {scans.data.map((scan) => (
                                         <tr key={scan.id}>
                                             <td className="px-4 py-3 font-mono text-xs whitespace-nowrap">
-                                                {new Date(scan.scanned_at).toLocaleString('fr-FR')}
+                                                {new Date(
+                                                    scan.scanned_at,
+                                                ).toLocaleString('fr-FR')}
                                             </td>
                                             <td className="px-4 py-3">
                                                 {scan.city || scan.country ? (
                                                     <span>
-                                                        {[scan.city, scan.country].filter(Boolean).join(', ')}
+                                                        {[
+                                                            scan.city,
+                                                            scan.country,
+                                                        ]
+                                                            .filter(Boolean)
+                                                            .join(', ')}
                                                     </span>
                                                 ) : (
-                                                    <span className="text-muted-foreground">Inconnue</span>
+                                                    <span className="text-muted-foreground">
+                                                        Inconnue
+                                                    </span>
                                                 )}
                                             </td>
                                             <td className="px-4 py-3 font-mono text-xs">
@@ -197,9 +254,14 @@ export default function ScanHistory({ qrCode, scans, availableCountries, filters
                                             </td>
                                             <td className="px-4 py-3">
                                                 <Badge variant="outline">
-                                                    {[scan.device_type, scan.os, scan.browser]
+                                                    {[
+                                                        scan.device_type,
+                                                        scan.os,
+                                                        scan.browser,
+                                                    ]
                                                         .filter(Boolean)
-                                                        .join(' · ') || 'Inconnu'}
+                                                        .join(' · ') ||
+                                                        'Inconnu'}
                                                 </Badge>
                                             </td>
                                         </tr>
@@ -227,7 +289,9 @@ export default function ScanHistory({ qrCode, scans, availableCountries, filters
                                                   ? 'hover:bg-muted'
                                                   : 'pointer-events-none opacity-40'
                                         }`}
-                                        dangerouslySetInnerHTML={{ __html: link.label }}
+                                        dangerouslySetInnerHTML={{
+                                            __html: link.label,
+                                        }}
                                     />
                                 ))}
                             </div>

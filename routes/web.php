@@ -1,14 +1,17 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\QrCodeImageController;
 use App\Http\Controllers\QrResolverController;
+use App\Http\Controllers\QrScanHistoryController;
+use App\Models\QrCode;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::delete('qr-codes/bulk-destroy', [QrCodeController::class, 'bulkDestroy'])
         ->name('qr-codes.bulk-destroy');
@@ -18,8 +21,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('qr-codes/{qrCode}/image', [QrCodeImageController::class, 'show'])
         ->name('qr-codes.image');
-    
-    Route::get('qr-codes/{qrCode}/scans', [\App\Http\Controllers\QrScanHistoryController::class, 'index'])
+
+    Route::get('qr-codes/{qrCode}/scans', [QrScanHistoryController::class, 'index'])
         ->name('qr-codes.scans');
 
     Route::patch('qr-codes/{qrCode}/quota', [QrCodeController::class, 'updateQuota'])
@@ -36,7 +39,8 @@ Route::get('/r/{slug}', [QrResolverController::class, 'redirect'])->name('qr.red
 
 // Page affichée quand le quota est atteint
 Route::get('/quota-atteint/{slug}', function (string $slug) {
-    $qrCode = \App\Models\QrCode::where('slug', $slug)->firstOrFail();
+    $qrCode = QrCode::where('slug', $slug)->firstOrFail();
+
     return view('qr-pages.limit-reached', ['qrCode' => $qrCode]);
 })->name('qr.limit-reached');
 

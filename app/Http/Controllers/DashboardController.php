@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\QrCode;
 use App\Models\QrScan;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
 

@@ -1,11 +1,18 @@
 import { Head, Link, router, useForm } from '@inertiajs/react';
-import { FormEventHandler, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import {
+    ExternalLink,
+    Gauge,
+    Plus,
+    QrCode as QrCodeIcon,
+    Trash2,
+    X,
+} from 'lucide-react';
+import type { FormEventHandler} from 'react';
+import { useState } from 'react';
 import { FinderFrame } from '@/components/finder-frame';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
     Dialog,
     DialogContent,
@@ -14,7 +21,8 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
-import { ExternalLink, Gauge, Plus, QrCode as QrCodeIcon, Trash2, X } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { dashboard } from '@/routes';
 
 interface QrCodeItem {
@@ -43,21 +51,29 @@ export default function Index({ qrCodes }: { qrCodes: QrCodeItem[] }) {
     const toggleSelected = (id: number) => {
         setSelected((prev) => {
             const next = new Set(prev);
+
             if (next.has(id)) {
                 next.delete(id);
             } else {
                 next.add(id);
             }
+
             return next;
         });
     };
 
     const toggleSelectAll = () => {
-        setSelected((prev) => (prev.size === qrCodes.length ? new Set() : new Set(qrCodes.map((q) => q.id))));
+        setSelected((prev) =>
+            prev.size === qrCodes.length
+                ? new Set()
+                : new Set(qrCodes.map((q) => q.id)),
+        );
     };
 
     const confirmDelete = () => {
-        if (!toDelete) return;
+        if (!toDelete) {
+return;
+}
 
         setDeleting(true);
         router.delete(`/qr-codes/${toDelete.id}`, {
@@ -87,9 +103,13 @@ export default function Index({ qrCodes }: { qrCodes: QrCodeItem[] }) {
             <div className="flex flex-1 flex-col gap-6 p-4 md:p-6">
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="font-display text-2xl font-semibold">Mes QR codes</h1>
+                        <h1 className="font-display text-2xl font-semibold">
+                            Mes QR codes
+                        </h1>
                         <p className="text-sm text-muted-foreground">
-                            {qrCodes.length} QR code{qrCodes.length > 1 ? 's' : ''} créé{qrCodes.length > 1 ? 's' : ''}.
+                            {qrCodes.length} QR code
+                            {qrCodes.length > 1 ? 's' : ''} créé
+                            {qrCodes.length > 1 ? 's' : ''}.
                         </p>
                     </div>
                     <Button asChild>
@@ -103,9 +123,13 @@ export default function Index({ qrCodes }: { qrCodes: QrCodeItem[] }) {
                 {qrCodes.length === 0 ? (
                     <FinderFrame className="flex flex-col items-center gap-3 p-12 text-center">
                         <QrCodeIcon className="size-8 text-muted-foreground" />
-                        <p className="text-sm text-muted-foreground">Aucun QR code créé pour le moment.</p>
+                        <p className="text-sm text-muted-foreground">
+                            Aucun QR code créé pour le moment.
+                        </p>
                         <Button size="sm" asChild>
-                            <Link href="/qr-codes/create">Créer mon premier QR code</Link>
+                            <Link href="/qr-codes/create">
+                                Créer mon premier QR code
+                            </Link>
                         </Button>
                     </FinderFrame>
                 ) : (
@@ -122,7 +146,8 @@ export default function Index({ qrCodes }: { qrCodes: QrCodeItem[] }) {
                             {selected.size > 0 && (
                                 <div className="ml-auto flex items-center gap-2">
                                     <span className="text-sm text-muted-foreground">
-                                        {selected.size} sélectionné{selected.size > 1 ? 's' : ''}
+                                        {selected.size} sélectionné
+                                        {selected.size > 1 ? 's' : ''}
                                     </span>
                                     <Button
                                         size="sm"
@@ -132,7 +157,11 @@ export default function Index({ qrCodes }: { qrCodes: QrCodeItem[] }) {
                                         <Trash2 className="size-4" />
                                         Supprimer
                                     </Button>
-                                    <Button size="sm" variant="ghost" onClick={() => setSelected(new Set())}>
+                                    <Button
+                                        size="sm"
+                                        variant="ghost"
+                                        onClick={() => setSelected(new Set())}
+                                    >
                                         <X className="size-4" />
                                     </Button>
                                 </div>
@@ -141,11 +170,16 @@ export default function Index({ qrCodes }: { qrCodes: QrCodeItem[] }) {
 
                         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                             {qrCodes.map((qr) => (
-                                <FinderFrame key={qr.id} className="flex gap-4 p-4">
+                                <FinderFrame
+                                    key={qr.id}
+                                    className="flex gap-4 p-4"
+                                >
                                     <div className="flex shrink-0 flex-col items-center gap-2">
                                         <Checkbox
                                             checked={selected.has(qr.id)}
-                                            onCheckedChange={() => toggleSelected(qr.id)}
+                                            onCheckedChange={() =>
+                                                toggleSelected(qr.id)
+                                            }
                                         />
                                         <img
                                             src={`/qr-codes/${qr.id}/image`}
@@ -156,24 +190,33 @@ export default function Index({ qrCodes }: { qrCodes: QrCodeItem[] }) {
                                     <div className="flex min-w-0 flex-1 flex-col justify-between">
                                         <div>
                                             <div className="flex items-start justify-between gap-2">
-                                                <p className="truncate text-sm font-medium">{qr.label}</p>
+                                                <p className="truncate text-sm font-medium">
+                                                    {qr.label}
+                                                </p>
                                                 <button
                                                     type="button"
-                                                    onClick={() => setToDelete(qr)}
+                                                    onClick={() =>
+                                                        setToDelete(qr)
+                                                    }
                                                     className="shrink-0 text-muted-foreground hover:text-destructive"
                                                     aria-label={`Supprimer ${qr.label}`}
                                                 >
                                                     <Trash2 className="size-4" />
                                                 </button>
                                             </div>
-                                            <p className="text-xs text-muted-foreground capitalize">{qr.type}</p>
+                                            <p className="text-xs text-muted-foreground capitalize">
+                                                {qr.type}
+                                            </p>
                                             <button
                                                 type="button"
-                                                onClick={() => setToEditQuota(qr)}
+                                                onClick={() =>
+                                                    setToEditQuota(qr)
+                                                }
                                                 className="mt-1 inline-flex items-center gap-1 font-mono text-xs text-muted-foreground hover:text-signal"
                                             >
                                                 <Gauge className="size-3" />
-                                                {qr.scan_count} / {qr.scan_limit ?? '∞'} scans
+                                                {qr.scan_count} /{' '}
+                                                {qr.scan_limit ?? '∞'} scans
                                             </button>
                                         </div>
                                         <div className="mt-2 flex items-center justify-between gap-2">
@@ -182,7 +225,8 @@ export default function Index({ qrCodes }: { qrCodes: QrCodeItem[] }) {
                                                 href={`/qr-codes/${qr.id}/scans`}
                                                 className="inline-flex items-center gap-1 text-xs text-signal hover:underline"
                                             >
-                                                Historique <ExternalLink className="size-3" />
+                                                Historique{' '}
+                                                <ExternalLink className="size-3" />
                                             </Link>
                                         </div>
                                     </div>
@@ -193,21 +237,35 @@ export default function Index({ qrCodes }: { qrCodes: QrCodeItem[] }) {
                 )}
             </div>
 
-            <Dialog open={toDelete !== null} onOpenChange={(open) => !open && setToDelete(null)}>
+            <Dialog
+                open={toDelete !== null}
+                onOpenChange={(open) => !open && setToDelete(null)}
+            >
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>Supprimer ce QR code ?</DialogTitle>
                         <DialogDescription>
-                            « {toDelete?.label} » sera définitivement supprimé, ainsi que tout son historique de
-                            scans. Cette action est irréversible.
+                            « {toDelete?.label} » sera définitivement supprimé,
+                            ainsi que tout son historique de scans. Cette action
+                            est irréversible.
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
-                        <Button variant="ghost" onClick={() => setToDelete(null)} disabled={deleting}>
+                        <Button
+                            variant="ghost"
+                            onClick={() => setToDelete(null)}
+                            disabled={deleting}
+                        >
                             Annuler
                         </Button>
-                        <Button variant="destructive" onClick={confirmDelete} disabled={deleting}>
-                            {deleting ? 'Suppression...' : 'Supprimer définitivement'}
+                        <Button
+                            variant="destructive"
+                            onClick={confirmDelete}
+                            disabled={deleting}
+                        >
+                            {deleting
+                                ? 'Suppression...'
+                                : 'Supprimer définitivement'}
                         </Button>
                     </DialogFooter>
                 </DialogContent>
@@ -216,24 +274,41 @@ export default function Index({ qrCodes }: { qrCodes: QrCodeItem[] }) {
             <Dialog open={bulkDialogOpen} onOpenChange={setBulkDialogOpen}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Supprimer {selected.size} QR code{selected.size > 1 ? 's' : ''} ?</DialogTitle>
+                        <DialogTitle>
+                            Supprimer {selected.size} QR code
+                            {selected.size > 1 ? 's' : ''} ?
+                        </DialogTitle>
                         <DialogDescription>
-                            Ces QR codes et tout leur historique de scans seront définitivement supprimés. Cette
-                            action est irréversible.
+                            Ces QR codes et tout leur historique de scans seront
+                            définitivement supprimés. Cette action est
+                            irréversible.
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
-                        <Button variant="ghost" onClick={() => setBulkDialogOpen(false)} disabled={deleting}>
+                        <Button
+                            variant="ghost"
+                            onClick={() => setBulkDialogOpen(false)}
+                            disabled={deleting}
+                        >
                             Annuler
                         </Button>
-                        <Button variant="destructive" onClick={confirmBulkDelete} disabled={deleting}>
-                            {deleting ? 'Suppression...' : 'Supprimer définitivement'}
+                        <Button
+                            variant="destructive"
+                            onClick={confirmBulkDelete}
+                            disabled={deleting}
+                        >
+                            {deleting
+                                ? 'Suppression...'
+                                : 'Supprimer définitivement'}
                         </Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
 
-            <QuotaDialog qrCode={toEditQuota} onClose={() => setToEditQuota(null)} />
+            <QuotaDialog
+                qrCode={toEditQuota}
+                onClose={() => setToEditQuota(null)}
+            />
         </>
     );
 }
@@ -261,7 +336,13 @@ function StatusBadge({ status }: { status: QrCodeItem['status'] }) {
     );
 }
 
-function QuotaDialog({ qrCode, onClose }: { qrCode: QrCodeItem | null; onClose: () => void }) {
+function QuotaDialog({
+    qrCode,
+    onClose,
+}: {
+    qrCode: QrCodeItem | null;
+    onClose: () => void;
+}) {
     const { data, setData, patch, processing, errors, reset } = useForm({
         scan_limit: '',
         reason: '',
@@ -271,7 +352,10 @@ function QuotaDialog({ qrCode, onClose }: { qrCode: QrCodeItem | null; onClose: 
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        if (!qrCode) return;
+
+        if (!qrCode) {
+return;
+}
 
         patch(`/qr-codes/${qrCode.id}/quota`, {
             onSuccess: () => {
@@ -296,24 +380,31 @@ function QuotaDialog({ qrCode, onClose }: { qrCode: QrCodeItem | null; onClose: 
                     <DialogHeader>
                         <DialogTitle>Modifier le quota</DialogTitle>
                         <DialogDescription>
-                            « {qrCode?.label} » — actuellement {qrCode?.scan_count} / {qrCode?.scan_limit ?? '∞'}{' '}
+                            « {qrCode?.label} » — actuellement{' '}
+                            {qrCode?.scan_count} / {qrCode?.scan_limit ?? '∞'}{' '}
                             scans.
                         </DialogDescription>
                     </DialogHeader>
 
                     <div className="mt-4 space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="scan_limit">Nouvelle limite de scans</Label>
+                            <Label htmlFor="scan_limit">
+                                Nouvelle limite de scans
+                            </Label>
                             <Input
                                 id="scan_limit"
                                 type="number"
                                 min={0}
                                 value={data.scan_limit}
-                                onChange={(e) => setData('scan_limit', e.target.value)}
+                                onChange={(e) =>
+                                    setData('scan_limit', e.target.value)
+                                }
                                 placeholder="Laisser vide pour illimité"
                             />
                             {errors.scan_limit && (
-                                <p className="text-sm text-destructive">{errors.scan_limit}</p>
+                                <p className="text-sm text-destructive">
+                                    {errors.scan_limit}
+                                </p>
                             )}
                         </div>
 
@@ -322,14 +413,21 @@ function QuotaDialog({ qrCode, onClose }: { qrCode: QrCodeItem | null; onClose: 
                             <Input
                                 id="reason"
                                 value={data.reason}
-                                onChange={(e) => setData('reason', e.target.value)}
+                                onChange={(e) =>
+                                    setData('reason', e.target.value)
+                                }
                                 placeholder="Ex. Campagne prolongée"
                             />
                         </div>
                     </div>
 
                     <DialogFooter className="mt-6">
-                        <Button type="button" variant="ghost" onClick={onClose} disabled={processing}>
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            onClick={onClose}
+                            disabled={processing}
+                        >
                             Annuler
                         </Button>
                         <Button type="submit" disabled={processing}>

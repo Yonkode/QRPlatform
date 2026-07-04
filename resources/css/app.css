@@ -169,7 +169,10 @@
         @apply bg-background text-foreground;
     }
 
-    h1, h2, h3, h4 {
+    h1,
+    h2,
+    h3,
+    h4 {
         font-family: var(--font-display);
     }
 }
@@ -206,7 +209,9 @@
         width: 16px;
         height: 16px;
         border: 2px solid color-mix(in srgb, var(--signal) 45%, transparent);
-        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
         pointer-events: none;
     }
 
@@ -235,10 +240,20 @@
     }
 
     @keyframes scan-sweep {
-        0% { top: 0%; opacity: 0; }
-        10% { opacity: 1; }
-        90% { opacity: 1; }
-        100% { top: 100%; opacity: 0; }
+        0% {
+            top: 0%;
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+        }
+        90% {
+            opacity: 1;
+        }
+        100% {
+            top: 100%;
+            opacity: 0;
+        }
     }
 
     .scan-line::after {
@@ -258,7 +273,4 @@
             display: none;
         }
     }
-
-    
-
 }

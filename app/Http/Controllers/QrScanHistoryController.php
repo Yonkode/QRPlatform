@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\QrCode;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Support\Facades\Gate;
 
 class QrScanHistoryController extends Controller
 {

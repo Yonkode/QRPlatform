@@ -105,6 +105,4 @@ class QrCode extends Model
             ? route('qr.redirect', $this->slug)
             : route('qr.show', $this->slug);
     }
-
-    
 }
