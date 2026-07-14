@@ -13,13 +13,40 @@ class QrCodeController extends Controller
 {
     public function index(Request $request): Response
     {
-        $qrCodes = $request->user()
-            ->qrCodes()
-            ->latest()
-            ->get();
+        $query = $request->user()->qrCodes()->with([
+            'quotaLogs' => fn ($q) => $q->latest('created_at'),
+        ]);
+
+        if ($request->filled('search')) {
+            $query->where('label', 'like', '%'.$request->string('search').'%');
+        }
+
+        if ($request->filled('type') && $request->string('type') !== 'all') {
+            $query->where('type', $request->string('type'));
+        }
+
+        if ($request->filled('status') && $request->string('status') !== 'all') {
+            $query->where('status', $request->string('status'));
+        }
+
+        $sort = $request->string('sort', 'created_desc');
+
+        match ((string) $sort) {
+            'created_asc' => $query->oldest(),
+            'label_asc' => $query->orderBy('label'),
+            'label_desc' => $query->orderByDesc('label'),
+            'scans_desc' => $query->orderByDesc('scan_count'),
+            default => $query->latest(),
+        };
+
+        $qrCodes = $query->get();
+
+        $availableTypes = $request->user()->qrCodes()->distinct()->pluck('type');
 
         return Inertia::render('QrCodes/Index', [
             'qrCodes' => $qrCodes,
+            'availableTypes' => $availableTypes,
+            'filters' => $request->only(['search', 'type', 'status', 'sort']),
         ]);
     }
 
@@ -30,17 +57,60 @@ class QrCodeController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $validated = $request->validate([
+        $type = $request->string('type', 'website')->toString();
+
+        $typeRules = match ($type) {
+            'website' => [
+                'url' => ['required', 'url', 'max:2048'],
+            ],
+            'wifi' => [
+                'ssid' => ['required', 'string', 'max:100'],
+                'wifi_password' => ['nullable', 'string', 'max:100'],
+                'encryption' => ['required', 'in:WPA,WEP,nopass'],
+            ],
+            'vcard' => [
+                'full_name' => ['required', 'string', 'max:100'],
+                'phone' => ['nullable', 'string', 'max:30'],
+                'email' => ['nullable', 'email', 'max:150'],
+                'company' => ['nullable', 'string', 'max:150'],
+            ],
+            'whatsapp' => [
+                'whatsapp_phone' => ['required', 'string', 'max:20'],
+                'message' => ['nullable', 'string', 'max:500'],
+            ],
+            default => abort(422, 'Type de QR code non pris en charge.'),
+        };
+
+        $validated = $request->validate(array_merge([
             'label' => ['required', 'string', 'max:150'],
-            'url' => ['required', 'url', 'max:2048'],
             'scan_limit' => ['nullable', 'integer', 'min:1'],
-        ]);
+            'type' => ['required', 'in:website,wifi,vcard,whatsapp'],
+        ], $typeRules));
+
+        $content = match ($type) {
+            'website' => ['url' => $validated['url']],
+            'wifi' => [
+                'ssid' => $validated['ssid'],
+                'password' => $validated['wifi_password'] ?? null,
+                'encryption' => $validated['encryption'],
+            ],
+            'vcard' => [
+                'full_name' => $validated['full_name'],
+                'phone' => $validated['phone'] ?? null,
+                'email' => $validated['email'] ?? null,
+                'company' => $validated['company'] ?? null,
+            ],
+            'whatsapp' => [
+                'phone' => $validated['whatsapp_phone'],
+                'message' => $validated['message'] ?? null,
+            ],
+        };
 
         $request->user()->qrCodes()->create([
             'label' => $validated['label'],
-            'type' => 'website',
-            'mode' => 'dynamic',
-            'content' => ['url' => $validated['url']],
+            'type' => $type,
+            'mode' => $type === 'website' ? 'dynamic' : 'static',
+            'content' => $content,
             'scan_limit' => $validated['scan_limit'] ?? null,
         ]);
 

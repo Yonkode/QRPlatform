@@ -117,6 +117,37 @@ export default function ScanHistory({
                 </div>
 
                 <FinderFrame className="p-5">
+
+                    <div className="mb-4 flex flex-wrap gap-2">
+                        {[
+                            { label: "Aujourd'hui", days: 0 },
+                            { label: '7 derniers jours', days: 7 },
+                            { label: '30 derniers jours', days: 30 },
+                            { label: 'Cette année', days: 365 },
+                        ].map((preset) => (
+                            <button
+                                key={preset.label}
+                                type="button"
+                                onClick={() => {
+                                    const to = new Date().toISOString().slice(0, 10);
+                                    const fromDate = new Date();
+                                    fromDate.setDate(fromDate.getDate() - preset.days);
+                                    const from = fromDate.toISOString().slice(0, 10);
+                                    setFrom(from);
+                                    setTo(to);
+                                    router.get(
+                                        `/qr-codes/${qrCode.id}/scans`,
+                                        { from, to, country, ip },
+                                        { preserveState: true, replace: true },
+                                    );
+                                }}
+                                className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground hover:border-signal hover:text-signal"
+                            >
+                                {preset.label}
+                            </button>
+                        ))}
+                    </div>
+
                     <form
                         onSubmit={applyFilters}
                         className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5"

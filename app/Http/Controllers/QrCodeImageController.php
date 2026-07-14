@@ -28,6 +28,7 @@ class QrCodeImageController extends Controller
         $result = $builder->build();
 
         return response($result->getString(), 200)
-            ->header('Content-Type', $result->getMimeType());
+            ->header('Content-Type', $result->getMimeType())
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate');
     }
 }

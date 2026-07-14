@@ -117,33 +117,28 @@ export default function Dashboard({
                                     Tu n'as pas encore créé de QR code.
                                 </p>
                                 <Button size="sm" asChild>
-                                    <Link href="/qr-codes/create">
-                                        Créer mon premier QR code
-                                    </Link>
+                                    <Link href="/qr-codes/create">Créer mon premier QR code</Link>
                                 </Button>
                             </div>
                         ) : (
                             <ul className="mt-4 divide-y divide-border">
                                 {recentQrCodes.map((qr) => (
-                                    <li
-                                        key={qr.id}
-                                        className="flex items-center justify-between gap-3 py-3"
-                                    >
-                                        <div className="min-w-0">
-                                            <p className="truncate text-sm font-medium">
-                                                {qr.label}
-                                            </p>
-                                            <p className="text-xs text-muted-foreground capitalize">
-                                                {qr.type}
-                                            </p>
-                                        </div>
-                                        <div className="flex shrink-0 items-center gap-3">
-                                            <span className="font-mono text-xs text-muted-foreground">
-                                                {qr.scan_count} /{' '}
-                                                {qr.scan_limit ?? '∞'}
-                                            </span>
-                                            <StatusBadge status={qr.status} />
-                                        </div>
+                                    <li key={qr.id}>
+                                        <Link
+                                            href={`/qr-codes/${qr.id}/scans`}
+                                            className="-mx-2 flex items-center justify-between gap-3 rounded-md px-2 py-3 hover:bg-muted/50"
+                                        >
+                                            <div className="min-w-0">
+                                                <p className="truncate text-sm font-medium">{qr.label}</p>
+                                                <p className="text-xs text-muted-foreground capitalize">{qr.type}</p>
+                                            </div>
+                                            <div className="flex shrink-0 items-center gap-3">
+                                                <span className="font-mono text-xs text-muted-foreground">
+                                                    {qr.scan_count} / {qr.scan_limit ?? '∞'}
+                                                </span>
+                                                <StatusBadge status={qr.status} />
+                                            </div>
+                                        </Link>
                                     </li>
                                 ))}
                             </ul>

@@ -60,8 +60,7 @@ export default function TwoFactorRecoveryCodes({
                     2FA recovery codes
                 </CardTitle>
                 <CardDescription>
-                    Recovery codes let you regain access if you lose your 2FA
-                    device. Store them in a secure password manager.
+                    Ces codes de récupération vous permettront de vous reconnecter si vous perdez votre appareil 2FA. Conservez-les précieusement dans un gestionnaire de mots de passe sécurisé.
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -76,7 +75,7 @@ export default function TwoFactorRecoveryCodes({
                             className="size-4"
                             aria-hidden="true"
                         />
-                        {codesAreVisible ? 'Hide' : 'View'} recovery codes
+                        {codesAreVisible ? 'Cacher' : 'Voir'} les codes de récupération
                     </Button>
 
                     {canRegenerateCodes && (
@@ -92,7 +91,7 @@ export default function TwoFactorRecoveryCodes({
                                     disabled={processing}
                                     aria-describedby="regenerate-warning"
                                 >
-                                    <RefreshCw /> Regenerate codes
+                                    <RefreshCw /> Regénerer les codes
                                 </Button>
                             )}
                         </Form>
@@ -145,13 +144,10 @@ export default function TwoFactorRecoveryCodes({
 
                                 <div className="text-xs text-muted-foreground select-none">
                                     <p id="regenerate-warning">
-                                        Each recovery code can be used once to
-                                        access your account and will be removed
-                                        after use. If you need more, click{' '}
+                                        Chaque code de secours est à usage unique et sera désactivé après utilisation. Si vous en avez besoin d'autres, cliquez sur {' '}
                                         <span className="font-bold">
-                                            Regenerate codes
+                                            Regénérer les codes
                                         </span>{' '}
-                                        above.
                                     </p>
                                 </div>
                             </>

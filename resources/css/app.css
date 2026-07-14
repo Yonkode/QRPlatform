@@ -175,6 +175,12 @@
     h4 {
         font-family: var(--font-display);
     }
+
+    button:not(:disabled),
+    [role='button'],
+    a {
+        cursor: pointer;
+    }
 }
 
 @layer utilities {
