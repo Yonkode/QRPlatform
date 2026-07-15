@@ -1,6 +1,6 @@
 # QRPlatform
 
-Plateforme web de génération et de gestion de QR Codes, développée dans le cadre du **Projet 2** (génération et gestion de QR Code). Elle permet de créer des QR Codes dynamiques sous 16 formats différents, de suivre leurs scans (période, localisation, adresse IP) et de gérer un quota de scans par code.
+Plateforme web de génération et de gestion de QR Codes, développée dans le cadre d'un projet académique (génération et gestion de QR Code). Elle permet de créer des QR Codes dynamiques sous 16 formats différents, de suivre leurs scans (période, localisation, adresse IP) et de gérer un quota de scans par code.
 
 ## Fonctionnalités
 
