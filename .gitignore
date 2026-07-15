@@ -27,3 +27,7 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+ngrok-v3-stable-linux-amd64.tgz
+/slug
+/test.txt

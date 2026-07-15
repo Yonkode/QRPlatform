@@ -336,7 +336,7 @@ export default function ScanHistory({
 
 ScanHistory.layout = {
     breadcrumbs: [
-        { title: 'Dashboard', href: dashboard() },
+        { title: 'Tableau de bord', href: dashboard() },
         { title: 'Mes QR codes', href: '/qr-codes' },
         { title: 'Historique des scans', href: '#' },
     ],

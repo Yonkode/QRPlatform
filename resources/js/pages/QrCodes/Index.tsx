@@ -66,6 +66,18 @@ const TYPE_LABEL: Record<string, string> = {
     wifi: 'Wifi',
     vcard: 'Carte de visite',
     whatsapp: 'WhatsApp',
+    coupon: 'Coupon',
+    business: 'Business',
+    app: 'Application',
+    facebook: 'Facebook',
+    instagram: 'Instagram',
+    social: 'Réseau social',
+    pdf: 'PDF',
+    images: 'Images',
+    video: 'Vidéo',
+    mp3: 'Audio',
+    menu: 'Menu',
+    link_list: 'Liste de liens',
 };
 
 const SORT_OPTIONS = [
@@ -415,7 +427,7 @@ export default function Index({ qrCodes, availableTypes, filters }: IndexProps) 
 
 Index.layout = {
     breadcrumbs: [
-        { title: 'Dashboard', href: dashboard() },
+        { title: 'Tableau de bord', href: dashboard() },
         { title: 'Mes QR codes', href: '/qr-codes' },
     ],
 };

@@ -1,3 +1,0 @@
-Fichiers à éditer, dans l'ordre
-#Chemin exactAction1app/Policies/QrCodePolicy.phpColler le contenu de la Policy (étape 2 du message précédent)2app/Http/Controllers/QrCodeImageController.phpColler le contenu du contrôleur d'image (étape 4)3app/Models/QrCode.phpAjouter la méthode publicUrl() (étape 6) — avant la dernière } du fichier4routes/web.phpAjouter la ligne de route (étape 7) — à l'intérieur du bloc Route::middleware(['auth', 'verified'])->group(function () { ... }), juste après la ligne Route::resource('qr-codes', ...)5resources/js/pages/QrCodes/Index.tsxRemplacer le bloc d'affichage de chaque QR Code (étape 8)
-Commande d'installation
